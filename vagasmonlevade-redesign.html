@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vagas Monlevade · O maior canal de vagas de João Monlevade</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;0,900;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --orange: #FF4D00;
+  --orange-dim: rgba(255,77,0,0.08);
+  --black: #0E0E0E;
+  --gray-dark: #2C2C2C;
+  --gray-mid: #6B6B6B;
+  --gray-light: #D8D5D0;
+  --white: #FEFEFE;
+  --cream: #F7F4F0;
+  --border: #E2DED8;
+  --noise: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Barlow', sans-serif;
+  background: var(--white);
+  color: var(--black);
+  overflow-x: hidden;
+  /* grain overlay global */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)' opacity='0.035'/%3E%3C/svg%3E");
+}
+
+/* ── TICKER ── */
+.ticker-bar {
+  background: var(--black);
+  color: var(--white);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 8px 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.ticker-inner { display: inline-flex; gap: 48px; animation: ticker 28s linear infinite; }
+.ticker-inner b { color: var(--orange); }
+@keyframes ticker { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+
+/* ── NAV ── */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(254,254,254,0.96);
+  backdrop-filter: blur(12px);
+  border-bottom: 1.5px solid var(--border);
+  padding: 0 24px;
+  display: flex; align-items: center; justify-content: center;
+  height: 56px;
+}
+.nav-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 24px; letter-spacing: 0.02em; color: var(--black);
+}
+.nav-logo span { color: var(--orange); }
+
+/* ── HERO ── */
+.hero {
+  padding: 64px 24px 52px;
+  text-align: center;
+  border-bottom: 1.5px solid var(--border);
+  position: relative;
+  overflow: hidden;
+  background-color: var(--white);
+  background-image:
+    radial-gradient(ellipse 70% 50% at 50% 0%, rgba(255,77,0,0.06) 0%, transparent 70%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)' opacity='0.03'/%3E%3C/svg%3E");
+}
+/* grade decorativa atrás do hero */
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 48px 48px;
+  opacity: 0.35;
+  pointer-events: none;
+}
+.hero > * { position: relative; }
+
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: var(--orange); color: var(--white);
+  font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 5px 13px; border-radius: 2px;
+  margin-bottom: 24px;
+}
+.hero-badge::before { content: '●'; animation: blink 1.3s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.25} }
+
+.hero-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(72px, 20vw, 120px);
+  line-height: 0.9;
+  color: var(--black);
+  margin-bottom: 24px;
+  letter-spacing: -0.01em;
+}
+.hero-title .highlight { color: var(--orange); }
+
+.hero-sub {
+  font-size: 16px; font-weight: 400; color: var(--gray-mid);
+  line-height: 1.7; max-width: 420px; margin: 0 auto 36px;
+}
+.hero-sub strong { color: var(--black); font-weight: 700; }
+
+/* preço inline */
+.price-inline {
+  display: inline-flex; align-items: center; gap: 12px;
+  background: var(--black);
+  border-radius: 4px;
+  padding: 14px 28px;
+  margin-bottom: 16px;
+}
+.price-inline .val {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 44px; line-height: 1;
+  color: var(--orange);
+}
+.price-inline .desc {
+  font-size: 13px; font-weight: 600; color: #ccc;
+  text-align: left; line-height: 1.4;
+}
+.price-inline .desc span { display: block; font-size: 11px; font-weight: 400; color: #888; margin-top: 2px; }
+
+.hero-handle {
+  font-size: 14px; color: var(--gray-mid); margin-top: 8px;
+}
+.hero-handle a {
+  color: var(--orange); text-decoration: none; font-weight: 700;
+  border-bottom: 1.5px solid var(--orange); padding-bottom: 1px;
+}
+
+/* ── FAIXA ÚNICO ── */
+.unique-strip {
+  background: var(--orange);
+  padding: 20px 24px;
+  text-align: center;
+  border-bottom: 1.5px solid rgba(0,0,0,0.15);
+  position: relative;
+  overflow: hidden;
+}
+.unique-strip::after {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23g)' opacity='0.06'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+.unique-strip p {
+  font-size: 14px; font-weight: 600; color: var(--white);
+  line-height: 1.55; max-width: 520px; margin: 0 auto;
+}
+.unique-strip p strong { font-weight: 900; }
+
+/* ── MÉTRICAS ── */
+.metrics-section {
+  background-color: var(--cream);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)' opacity='0.04'/%3E%3C/svg%3E");
+  border-bottom: 1.5px solid var(--border);
+  padding: 0 24px;
+}
+.metrics-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  max-width: 560px;
+  margin: 0 auto;
+}
+.metric-cell {
+  padding: 36px 20px;
+  text-align: center;
+  position: relative;
+}
+.metric-cell:nth-child(1),
+.metric-cell:nth-child(2) { border-bottom: 1.5px solid var(--border); }
+.metric-cell:nth-child(1),
+.metric-cell:nth-child(3) { border-right: 1.5px solid var(--border); }
+
+.metric-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(52px, 14vw, 72px);
+  color: var(--orange); line-height: 1;
+  display: block;
+}
+.metric-name {
+  font-size: 13px; font-weight: 700; color: var(--gray-dark);
+  margin-top: 4px; display: block;
+}
+.metric-note {
+  font-size: 11px; color: var(--gray-mid);
+  margin-top: 3px; display: block; line-height: 1.4;
+}
+
+/* ── COMO FUNCIONA ── */
+.how-section {
+  border-bottom: 1.5px solid var(--border);
+  padding: 0 24px 0;
+  background: var(--white);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)' opacity='0.025'/%3E%3C/svg%3E");
+}
+.how-header {
+  text-align: center;
+  padding: 52px 0 40px;
+  border-bottom: 1.5px solid var(--border);
+  max-width: 480px; margin: 0 auto;
+}
+.section-label {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--orange); margin-bottom: 10px;
+}
+.section-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(44px, 12vw, 64px);
+  color: var(--black); line-height: 0.92;
+}
+.section-desc {
+  font-size: 14px; color: var(--gray-mid);
+  line-height: 1.65; margin-top: 14px;
+}
+.how-steps {
+  max-width: 560px; margin: 0 auto;
+}
+.how-step {
+  padding: 32px 0;
+  border-bottom: 1.5px solid var(--border);
+  display: flex; gap: 20px; align-items: flex-start;
+}
+.how-step:last-child { border-bottom: none; }
+.step-num-wrap {
+  flex-shrink: 0;
+  width: 44px; height: 44px;
+  border: 1.5px solid var(--border);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  margin-top: 2px;
+}
+.step-num-wrap span {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px; color: var(--orange); line-height: 1;
+}
+.step-body {}
+.step-title { font-size: 16px; font-weight: 700; color: var(--black); margin-bottom: 6px; line-height: 1.25; }
+.step-desc { font-size: 14px; color: var(--gray-mid); line-height: 1.6; }
+
+/* ── O QUE NÃO FAZEMOS ── */
+.noservice-section {
+  background-color: var(--cream);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)' opacity='0.04'/%3E%3C/svg%3E");
+  border-bottom: 1.5px solid var(--border);
+  padding: 52px 24px;
+}
+.noservice-inner { max-width: 560px; margin: 0 auto; }
+.noservice-header { text-align: center; margin-bottom: 36px; }
+.noservice-list { list-style: none; }
+.noservice-item {
+  padding: 16px 0; border-bottom: 1px solid var(--border);
+  display: flex; align-items: flex-start; gap: 12px;
+  font-size: 14px; color: var(--gray-dark); line-height: 1.55;
+}
+.noservice-item:last-child { border-bottom: none; }
+.noservice-x {
+  width: 24px; height: 24px;
+  background: rgba(255,77,0,0.1);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; color: var(--orange); font-weight: 900;
+  flex-shrink: 0; margin-top: 1px;
+}
+
+/* ── POR QUE FUNCIONA ── */
+.why-section {
+  border-bottom: 1.5px solid var(--border);
+  padding: 52px 24px;
+  background: var(--white);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)' opacity='0.025'/%3E%3C/svg%3E");
+}
+.why-inner { max-width: 560px; margin: 0 auto; text-align: center; }
+.why-inner p {
+  font-size: 15px; color: var(--gray-mid); line-height: 1.75;
+  margin-top: 20px;
+}
+.why-inner strong { color: var(--black); font-weight: 700; }
+
+/* ── CORPORATIVO ── */
+.corp-section {
+  background-color: var(--black);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)' opacity='0.06'/%3E%3C/svg%3E");
+  border-bottom: 1.5px solid #222;
+  padding: 52px 24px;
+  text-align: center;
+}
+.corp-inner { max-width: 480px; margin: 0 auto; }
+.corp-inner .section-label { color: var(--orange); }
+.corp-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(36px, 10vw, 52px);
+  color: var(--white); line-height: 0.95;
+  margin: 10px 0 16px;
+}
+.corp-inner p { font-size: 14px; color: #999; line-height: 1.7; }
+.corp-handle {
+  display: inline-block;
+  margin-top: 24px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px; color: var(--orange);
+  letter-spacing: 0.02em;
+  border-bottom: 2px solid rgba(255,77,0,0.4);
+  padding-bottom: 2px;
+  text-decoration: none;
+}
+
+/* ── CTA FINAL ── */
+.cta-section {
+  background-color: var(--orange);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)' opacity='0.07'/%3E%3C/svg%3E");
+  padding: 60px 24px;
+  text-align: center;
+  border-bottom: 1.5px solid rgba(0,0,0,0.15);
+}
+.cta-inner { max-width: 480px; margin: 0 auto; }
+.cta-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(52px, 16vw, 80px);
+  color: var(--white); line-height: 0.9;
+  margin-bottom: 20px;
+}
+.cta-sub { font-size: 15px; color: rgba(255,255,255,0.75); margin-bottom: 28px; line-height: 1.6; }
+.cta-handle {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 32px; color: var(--white);
+  letter-spacing: 0.02em; display: block;
+  margin-bottom: 8px;
+}
+.cta-price { font-size: 13px; color: rgba(255,255,255,0.65); }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--white);
+  padding: 28px 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-top: 1.5px solid var(--border);
+}
+.footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 20px; color: var(--black); }
+.footer-logo span { color: var(--orange); }
+.footer-copy { font-size: 11px; color: var(--gray-mid); }
+.footer-ig a { font-size: 12px; font-weight: 700; color: var(--black); text-decoration: none; border-bottom: 1.5px solid var(--orange); padding-bottom: 1px; }
+
+/* ── REVEAL ── */
+[data-reveal] { opacity: 0; transform: translateY(20px); transition: opacity 0.55s ease, transform 0.55s ease; }
+[data-reveal].visible { opacity: 1; transform: none; }
+
+/* ── DESKTOP override (acima de 768px) ── */
+@media (min-width: 768px) {
+  nav { padding: 0 48px; justify-content: space-between; }
+  .nav-links { display: flex; gap: 24px; list-style: none; }
+  .nav-links a { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--gray-dark); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--orange); }
+
+  .hero { padding: 88px 48px 72px; }
+  .hero-title { font-size: clamp(80px, 10vw, 128px); }
+
+  .metrics-grid { grid-template-columns: repeat(4, 1fr); max-width: 900px; }
+  .metric-cell:nth-child(1),
+  .metric-cell:nth-child(2) { border-bottom: none; }
+  .metric-cell:nth-child(1),
+  .metric-cell:nth-child(2),
+  .metric-cell:nth-child(3) { border-right: 1.5px solid var(--border); }
+  .metric-cell:nth-child(3) { border-bottom: none; }
+
+  .how-header { padding: 60px 0 44px; }
+  .how-steps { max-width: 680px; }
+
+  .noservice-inner { max-width: 680px; }
+  .why-inner { max-width: 640px; }
+}
+
+@media (min-width: 1024px) {
+  .metrics-section { padding: 0 60px; }
+  .how-section { padding: 0 60px 0; }
+  .noservice-section { padding: 64px 60px; }
+  .why-section { padding: 64px 60px; }
+  .corp-section { padding: 64px 60px; }
+  .cta-section { padding: 80px 60px; }
+}
+</style>
+</head>
+<body>
+
+<!-- TICKER -->
+<div class="ticker-bar">
+  <div class="ticker-inner">
+    <b>15 mil seguidores</b> · O único canal ativo de vagas ·
+    <b>+1 milhão de views/mês</b> · João Monlevade MG ·
+    <b>até 250 cliques por vaga</b> · Candidatos no mesmo dia ·
+    <b>+1.900 vagas publicadas</b> · Audiência segmentada ·
+    <b>15 mil seguidores</b> · O único canal ativo de vagas ·
+    <b>+1 milhão de views/mês</b> · João Monlevade MG ·
+    <b>até 250 cliques por vaga</b> · Candidatos no mesmo dia ·
+    <b>+1.900 vagas publicadas</b> · Audiência segmentada ·
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Vagas<span>Monlevade</span></div>
+  <ul class="nav-links" style="display:none">
+    <li><a href="#como-funciona">Como funciona</a></li>
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#anunciar" style="color:var(--orange)!important">Anunciar</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="topo">
+  <div class="hero-badge">O maior canal de vagas</div>
+  <h1 class="hero-title">
+    Sua vaga<br>em João<br><span class="highlight">Monlevade</span>
+  </h1>
+  <p class="hero-sub">
+    Publicamos sua vaga para <strong>15 mil pessoas que estão ativamente buscando emprego</strong> na cidade. Você recebe os candidatos, filtra e contrata.
+  </p>
+  <div class="price-inline">
+    <div class="val">R$25</div>
+    <div class="desc">
+      por vaga divulgada
+      <span>preço único · sem taxas</span>
+    </div>
+  </div>
+  <p class="hero-handle">Anuncie pelo Direct: <a href="https://instagram.com/vagas_monlevade" target="_blank">@vagas_monlevade</a></p>
+</section>
+
+<!-- FAIXA ÚNICO NO MERCADO -->
+<div class="unique-strip">
+  <p><strong>O único canal de vagas ativo em João Monlevade.</strong> 15 mil seguidores reais com audiência segmentada. Se você busca candidatos em João Monlevade/MG, eles estão aqui.</p>
+</div>
+
+<!-- MÉTRICAS -->
+<div class="metrics-section">
+  <div class="metrics-grid">
+    <div class="metric-cell" data-reveal>
+      <span class="metric-num">15<span style="font-size:0.5em">mil</span></span>
+      <span class="metric-name">Seguidores</span>
+      <span class="metric-note">Buscando emprego na cidade</span>
+    </div>
+    <div class="metric-cell" data-reveal style="transition-delay:.08s">
+      <span class="metric-num">+1M</span>
+      <span class="metric-name">Views / mês</span>
+      <span class="metric-note">Alcance orgânico real</span>
+    </div>
+    <div class="metric-cell" data-reveal style="transition-delay:.16s">
+      <span class="metric-num">250</span>
+      <span class="metric-name">Cliques em uma vaga</span>
+      <span class="metric-note">Média de +60 · varia por vaga</span>
+    </div>
+    <div class="metric-cell" data-reveal style="transition-delay:.24s">
+      <span class="metric-num">24h</span>
+      <span class="metric-name">Para contratar</span>
+      <span class="metric-note">Da publicação à contratação</span>
+    </div>
+  </div>
+</div>
+
+<!-- COMO FUNCIONA -->
+<section class="how-section" id="como-funciona">
+  <div class="how-header">
+    <div class="section-label">Simples e rápido</div>
+    <h2 class="section-title">Como<br>funciona</h2>
+    <p class="section-desc">Do envio da arte até os primeiros candidatos, em minutos.</p>
+  </div>
+  <div class="how-steps">
+    <div class="how-step" data-reveal>
+      <div class="step-num-wrap"><span>01</span></div>
+      <div class="step-body">
+        <div class="step-title">Você nos envia a arte da vaga</div>
+        <p class="step-desc">A arte fica por sua conta. Mande pronta pelo Direct com o link ou contato para receber os candidatos.</p>
+      </div>
+    </div>
+    <div class="how-step" data-reveal style="transition-delay:.07s">
+      <div class="step-num-wrap"><span>02</span></div>
+      <div class="step-body">
+        <div class="step-title">Nós publicamos no canal</div>
+        <p class="step-desc">Postamos como Reels e Story no @vagas_monlevade e também no grupo de vagas pelo WhatsApp. Publicação rápida, sem burocracia.</p>
+      </div>
+    </div>
+    <div class="how-step" data-reveal style="transition-delay:.14s">
+      <div class="step-num-wrap"><span>03</span></div>
+      <div class="step-body">
+        <div class="step-title">Candidatos chegam em minutos</div>
+        <p class="step-desc">A publicação tem o link direto para o seu contato. Quem se interessa entra em contato com você em minutos.</p>
+      </div>
+    </div>
+    <div class="how-step" data-reveal style="transition-delay:.21s">
+      <div class="step-num-wrap"><span>04</span></div>
+      <div class="step-body">
+        <div class="step-title">Você filtra e contrata</div>
+        <p class="step-desc">A triagem, entrevistas e seleção são suas. Nossa parte é levar volume de candidatos até você com agilidade.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- O QUE NÃO FAZEMOS -->
+<section class="noservice-section" id="sobre">
+  <div class="noservice-inner">
+    <div class="noservice-header">
+      <div class="section-label">Transparência</div>
+      <h2 class="section-title">O que não fazemos</h2>
+    </div>
+    <ul class="noservice-list">
+      <li class="noservice-item" data-reveal>
+        <div class="noservice-x">✕</div>
+        <span><strong>Não fazemos recrutamento e seleção.</strong> A triagem e as entrevistas são por sua conta.</span>
+      </li>
+      <li class="noservice-item" data-reveal style="transition-delay:.06s">
+        <div class="noservice-x">✕</div>
+        <span><strong>Não criamos a arte da vaga.</strong> Você envia o card pronto, nós publicamos.</span>
+      </li>
+      <li class="noservice-item" data-reveal style="transition-delay:.12s">
+        <div class="noservice-x">✕</div>
+        <span><strong>Não indicamos candidatos específicos.</strong> Quem se interessa entra em contato com você diretamente.</span>
+      </li>
+      <li class="noservice-item" data-reveal style="transition-delay:.18s">
+        <div class="noservice-x">✕</div>
+        <span><strong>Não garantimos número de candidatos.</strong> O volume varia conforme a vaga e o perfil buscado.</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- POR QUE FUNCIONA -->
+<section class="why-section">
+  <div class="why-inner" data-reveal>
+    <div class="section-label">Por que funciona</div>
+    <h2 class="section-title">Audiência<br>segmentada</h2>
+    <p>O <strong>@vagas_monlevade</strong> tem 15 mil seguidores em João Monlevade com um perfil muito específico: <strong>pessoas em busca ativa de emprego na cidade</strong>.</p>
+    <p>Não são seguidores aleatórios. Cada visualização é de alguém que segue o canal porque quer encontrar uma oportunidade. Por isso o volume de candidatos é alto e a contratação tende a acontecer com agilidade.</p>
+  </div>
+</section>
+
+<!-- PARCERIA CORPORATIVA -->
+<section class="corp-section">
+  <div class="corp-inner" data-reveal>
+    <div class="section-label">Empresas com múltiplas vagas</div>
+    <h2 class="corp-title">Parceria<br>corporativa</h2>
+    <p>Se sua empresa tem demandas recorrentes de contratação, podemos criar uma condição especial. Fale com a gente pelo Direct.</p>
+    <a href="https://instagram.com/vagas_monlevade" target="_blank" class="corp-handle">@vagas_monlevade</a>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-section" id="anunciar">
+  <div class="cta-inner" data-reveal>
+    <h2 class="cta-title">Sua vaga<br>preenchida hoje</h2>
+    <p class="cta-sub">Envie a arte da vaga pelo Direct no Instagram. Publicamos em minutos.</p>
+    <span class="cta-handle">@vagas_monlevade</span>
+    <p class="cta-price">Instagram · R$25 por vaga</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Vagas<span>Monlevade</span></div>
+  <div class="footer-copy">João Monlevade, MG</div>
+  <div class="footer-ig"><a href="https://instagram.com/vagas_monlevade" target="_blank">@vagas_monlevade</a></div>
+</footer>
+
+<script>
+  // nav links visíveis só no desktop
+  if (window.innerWidth >= 768) {
+    document.querySelector('.nav-links').style.display = 'flex';
+  }
+  window.addEventListener('resize', () => {
+    document.querySelector('.nav-links').style.display = window.innerWidth >= 768 ? 'flex' : 'none';
+  });
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('[data-reveal]').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
